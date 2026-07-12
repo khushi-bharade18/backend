@@ -1,6 +1,58 @@
-const express = require('express')
+const express = require("express");
+const studentModel = require("./models/student.model");
 
-const app = express()
-app.use(express.json())
+const app = express();
+app.use(express.json());
 
-module.exports = app
+app.post("/students", async (req, res) => {
+  const data = req.body;
+  await studentModel.create({
+    name: data.name,
+    rollno: data.rollno,
+    city: data.city,
+  });
+
+  res.status(201).json({
+    message: "Student add successfully",
+  });
+});
+
+app.get("/students", async (req, res) => {
+  const students = await studentModel.find();
+
+  res.status(200).json({
+    message: "All students",
+    students: students,
+  });
+});
+
+app.delete("/students/:id", async (req, res) => {
+  const id = req.params.id;
+
+  await studentModel.findByIdAndDelete({
+    _id: id,
+  });
+
+  res.status(200).json({
+    message: "Student deleted",
+  });
+});
+
+app.patch("/students/:id", async (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+
+  await studentModel.findByIdAndUpdate(
+    { _id: id },
+    {
+      ...data,
+      data,
+    },
+  );
+
+  res.status(200).json({
+    message: "Updated successfully",
+  });
+});
+
+module.exports = app;
