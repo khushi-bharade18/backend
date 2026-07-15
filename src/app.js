@@ -1,58 +1,63 @@
 const express = require("express");
 const studentModel = require("./models/student.model");
+const authRoutes = require('./routes/auth.route')
+
 
 const app = express();
 app.use(express.json());
 
-app.post("/students", async (req, res) => {
-  const data = req.body;
-  await studentModel.create({
-    name: data.name,
-    rollno: data.rollno,
-    city: data.city,
-  });
+// app.post("/students", async (req, res) => {
+//   const data = req.body;
+//   await studentModel.create({
+//     name: data.name,
+//     rollno: data.rollno,
+//     city: data.city,
+//   });
 
-  res.status(201).json({
-    message: "Student add successfully",
-  });
-});
+//   res.status(201).json({
+//     message: "Student add successfully",
+//   });
+// });
 
-app.get("/students", async (req, res) => {
-  const students = await studentModel.find();
+// app.get("/students", async (req, res) => {
+//   const students = await studentModel.find();
 
-  res.status(200).json({
-    message: "All students",
-    students: students,
-  });
-});
+//   res.status(200).json({
+//     message: "All students",
+//     students: students,
+//   });
+// });
 
-app.delete("/students/:id", async (req, res) => {
-  const id = req.params.id;
+// app.delete("/students/:id", async (req, res) => {
+//   const id = req.params.id;
 
-  await studentModel.findByIdAndDelete({
-    _id: id,
-  });
+//   await studentModel.findByIdAndDelete({
+//     _id: id,
+//   });
 
-  res.status(200).json({
-    message: "Student deleted",
-  });
-});
+//   res.status(200).json({
+//     message: "Student deleted",
+//   });
+// });
 
-app.patch("/students/:id", async (req, res) => {
-  const id = req.params.id;
-  const data = req.body;
+// app.patch("/students/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const data = req.body;
 
-  await studentModel.findByIdAndUpdate(
-    { _id: id },
-    {
-      ...data,
-      data,
-    },
-  );
+//   await studentModel.findByIdAndUpdate(
+//     { _id: id },
+//     {
+//       ...data,
+//       data,
+//     },
+//   );
 
-  res.status(200).json({
-    message: "Updated successfully",
-  });
-});
+//   res.status(200).json({
+//     message: "Updated successfully",
+//   });
+// });
+
+
+app.use('/api/auth', authRoutes)
 
 module.exports = app;
