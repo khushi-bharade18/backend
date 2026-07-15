@@ -1,10 +1,13 @@
 const express = require("express");
+const cookieParser = require('cookie-parser')
 const studentModel = require("./models/student.model");
 const authRoutes = require('./routes/auth.route')
+const loginRoutes = require('./routes/login.route')
 
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // app.post("/students", async (req, res) => {
 //   const data = req.body;
@@ -59,5 +62,7 @@ app.use(express.json());
 
 
 app.use('/api/auth', authRoutes)
+
+app.use('/api/login', loginRoutes)
 
 module.exports = app;
